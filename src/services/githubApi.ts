@@ -54,23 +54,8 @@ class GitHubService {
 
     // Enhanced beginner-friendly filters
     if (filters.beginnerMode) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      query += ' (topic:beginner OR topic:good-first-issue OR topic:hacktoberfest OR topic:education OR topic:learning OR topic:tutorial OR topic:student OR topic:awesome OR topic:resources OR topic:guide OR topic:course OR topic:workshop OR topic:bootcamp OR topic:coding OR topic:programming OR label:"good first issue" OR label:"beginner friendly" OR label:"help wanted")';
-      // Also prioritize repositories with good documentation
-      query += ' (README.md OR documentation OR docs OR wiki)';
-      // Filter for repositories with reasonable complexity (not too many stars to be overwhelming)
-      query += ' stars:10..10000';
-=======
-      // Simpler, more reliable beginner-friendly query
       query += ' (topic:beginner OR topic:good-first-issue OR label:"good first issue" OR label:"beginner friendly" OR topic:education)';
       // Remove README/docs/complexity filters for better results
->>>>>>> 89f5a0d (Initial commit)
-=======
-      // Simpler, more reliable beginner-friendly query
-      query += ' (topic:beginner OR topic:good-first-issue OR label:"good first issue" OR label:"beginner friendly" OR topic:education)';
-      // Remove README/docs/complexity filters for better results
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     }
 
     // Ensure we only get public repositories with good documentation

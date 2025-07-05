@@ -28,18 +28,9 @@ export interface SearchFilters {
 
 export interface User {
   id: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   /**
    * The user's GitHub username (login). Optional for backward compatibility.
    */
->>>>>>> 89f5a0d (Initial commit)
-=======
-  /**
-   * The user's GitHub username (login). Optional for backward compatibility.
-   */
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   login: string;
   name: string;
   avatar_url: string;
@@ -65,12 +56,5 @@ export interface SubmittedRepo {
   submitted_by?: string;
   status: 'pending' | 'approved' | 'rejected';
   created_at?: string;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   owner_avatar?: string;
->>>>>>> 89f5a0d (Initial commit)
-=======
-  owner_avatar?: string;
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 }

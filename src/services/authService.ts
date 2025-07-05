@@ -32,11 +32,6 @@ export class AuthService {
     }
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   async signInWithGitHub() {
     try {
       // Only call if real Supabase client (not mock)
@@ -52,10 +47,6 @@ export class AuthService {
     }
   }
 
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   async signOut() {
     try {
       const { error } = await supabase.auth.signOut();
@@ -68,25 +59,6 @@ export class AuthService {
 
   async getCurrentUser(): Promise<User | null> {
     try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Get session error:', error);
-        return null;
-      }
-
-      if (!session) {
-        // Don't throw an error for missing session, just return null
-        console.log('No active session found');
-        return null;
-      }
-
-      return session.user;
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       // Use getUser for both real and mock clients
       const { data, error } = await supabase.auth.getUser();
       if (error) {
@@ -121,36 +93,12 @@ export class AuthService {
         avatar_url,
         email: supaUser.email || undefined,
       };
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     } catch (error) {
       console.error('Get user error:', error);
       return null;
     }
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  async getSession(): Promise<Session | null> {
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Get session error:', error);
-        return null;
-      }
-
-      return session;
-    } catch (error) {
-      console.error('Get session error:', error);
-      return null;
-    }
-  }
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   // Remove or comment out getSession (not supported by mock client)
   // async getSession(): Promise<Session | null> {
   //   try {
@@ -165,10 +113,6 @@ export class AuthService {
   //     return null;
   //   }
   // }
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
   onAuthStateChange(callback: (event: string, session: Session | null) => void) {
     return supabase.auth.onAuthStateChange(callback);

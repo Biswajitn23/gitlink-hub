@@ -1,15 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import { Upload, Github, AlertCircle, CheckCircle, Loader } from 'lucide-react';
-=======
-import { useState } from 'react';
-import { Upload, Github, AlertCircle, Loader } from 'lucide-react';
->>>>>>> 89f5a0d (Initial commit)
-=======
-import { useState } from 'react';
-import { Upload, Github, AlertCircle, Loader } from 'lucide-react';
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { useAuth } from '../context/AuthContext';
 import { githubService } from '../services/githubApi';
 import { supabase } from '../lib/supabase';
@@ -26,11 +16,6 @@ interface UserRepo {
   topics: string[];
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 // Type guard for .eq
 function hasEq(obj: any): obj is { eq: Function } {
   return obj && typeof obj.eq === 'function';
@@ -40,32 +25,10 @@ function hasData(obj: any): obj is { data: any } {
   return obj && typeof obj === 'object' && 'data' in obj;
 }
 
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 export function UserRepoUpload() {
   const { user } = useAuth();
   const [userRepos, setUserRepos] = useState<UserRepo[]>([]);
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const [uploading, setUploading] = useState<number | null>(null);
-  const [success, setSuccess] = useState<number | null>(null);
-  const [error, setError] = useState('');
-
-  const loadUserRepos = async () => {
-    if (!user) return;
-    
-    setLoading(true);
-    setError('');
-    
-    try {
-      const repos = await githubService.getUserRepositories(user.login);
-      setUserRepos(repos);
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const [error, setError] = useState('');
   const [success, setSuccess] = useState<string | null>(null);
   const [selectedRepoId, setSelectedRepoId] = useState<number | null>(null);
@@ -95,10 +58,6 @@ export function UserRepoUpload() {
       setUserRepos(repos);
       localStorage.setItem(cacheKey, JSON.stringify({ repos, timestamp: Date.now() }));
       console.log('Fetched repos:', repos);
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     } catch (err) {
       setError('Failed to load your repositories. Please try again.');
       console.error('Error loading user repos:', err);
@@ -107,64 +66,6 @@ export function UserRepoUpload() {
     }
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const uploadRepository = async (repo: UserRepo) => {
-    if (!user) return;
-
-    setUploading(repo.id);
-    setError('');
-
-    try {
-      // Check if repo already exists in our database
-      const { data: existing } = await supabase
-        .from('user_repositories')
-        .select('id')
-        .eq('github_id', repo.id)
-        .single();
-
-      if (existing) {
-        setError('This repository has already been uploaded.');
-        return;
-      }
-
-      // Upload repository to our database
-      const { error: uploadError } = await supabase
-        .from('user_repositories')
-        .insert([
-          {
-            github_id: repo.id,
-            name: repo.name,
-            full_name: repo.full_name,
-            description: repo.description,
-            html_url: repo.html_url,
-            language: repo.language,
-            stargazers_count: repo.stargazers_count,
-            forks_count: repo.forks_count,
-            topics: repo.topics,
-            owner_login: user.login,
-            owner_avatar: user.avatar_url,
-            uploaded_by: user.id,
-            status: 'approved' // Auto-approve user's own repos
-          }
-        ]);
-
-      if (uploadError) throw uploadError;
-
-      setSuccess(repo.id);
-      setTimeout(() => setSuccess(null), 3000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to upload repository');
-      console.error('Error uploading repo:', err);
-    } finally {
-      setUploading(null);
-    }
-  };
-
-=======
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   if (!user) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
@@ -179,11 +80,6 @@ export function UserRepoUpload() {
     );
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   if (!supabase || typeof supabase.from !== 'function') {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
@@ -198,10 +94,6 @@ export function UserRepoUpload() {
     );
   }
 
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   return (
     <div className="space-y-6">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6">
@@ -239,21 +131,12 @@ export function UserRepoUpload() {
           </div>
         )}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
         {success && (
           <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center space-x-2">
             <span className="text-green-700 dark:text-green-300 font-semibold">{success}</span>
           </div>
         )}
 
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
         {userRepos.length === 0 && !loading && (
           <div className="text-center py-8">
             <Github className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
@@ -279,40 +162,6 @@ export function UserRepoUpload() {
                       {repo.full_name}
                     </p>
                   </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  
-                  <button
-                    onClick={() => uploadRepository(repo)}
-                    disabled={uploading === repo.id || success === repo.id}
-                    className={`flex items-center space-x-1 px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                      success === repo.id
-                        ? 'bg-success-100 dark:bg-success-900/20 text-success-700 dark:text-success-400'
-                        : uploading === repo.id
-                        ? 'bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                        : 'bg-primary-100 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/40'
-                    }`}
-                  >
-                    {uploading === repo.id ? (
-                      <>
-                        <Loader className="h-3 w-3 animate-spin" />
-                        <span>Uploading...</span>
-                      </>
-                    ) : success === repo.id ? (
-                      <>
-                        <CheckCircle className="h-3 w-3" />
-                        <span>Uploaded</span>
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="h-3 w-3" />
-                        <span>Upload</span>
-                      </>
-                    )}
-                  </button>
-=======
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                   <div className="flex flex-col items-end">
                     {selectedRepoId === repo.id ? (
                       <button
@@ -381,10 +230,6 @@ export function UserRepoUpload() {
                       </button>
                     )}
                   </div>
-<<<<<<< HEAD
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                 </div>
 
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
