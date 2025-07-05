@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 =======
 import { useState, useEffect } from 'react';
 >>>>>>> 89f5a0d (Initial commit)
+=======
+import { useState, useEffect } from 'react';
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
 import { RepositoryCard } from './components/RepositoryCard';
@@ -14,16 +18,23 @@ import { EmptyState } from './components/EmptyState';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Repository, SearchFilters } from './types';
 =======
 import { Repository, SearchFilters, ProjectIdea, SubmittedRepo } from './types';
 >>>>>>> 89f5a0d (Initial commit)
+=======
+import { Repository, SearchFilters, ProjectIdea, SubmittedRepo } from './types';
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { githubService } from './services/githubApi';
 import { supabase, isSupabaseEnabled } from './lib/supabase';
 import { projectIdeas } from './data/projectIdeas';
 import { TrendingUp, Sparkles, Code2, BookOpen, GraduationCap, AlertCircle, RefreshCw } from 'lucide-react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { fetchAIProjectIdeas } from './services/aiService';
 import { SubmittedRepoCard } from './components/SubmittedRepoCard';
 
@@ -43,7 +54,10 @@ function isPromise(obj: any): obj is Promise<any> {
 function hasDataAndError(obj: any): obj is { data: any; error: any } {
   return obj && typeof obj === 'object' && 'data' in obj && 'error' in obj;
 }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
 function AppContent() {
   const { user } = useAuth();
@@ -53,10 +67,13 @@ function AppContent() {
   const [educationalRepos, setEducationalRepos] = useState<Repository[]>([]);
   const [bookmarkedRepos, setBookmarkedRepos] = useState<Repository[]>([]);
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const [trendingLoading, setTrendingLoading] = useState(false);
   const [educationalLoading, setEducationalLoading] = useState(false);
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const [submittedRepos, setSubmittedRepos] = useState<SubmittedRepo[]>([]);
   const [submittedEducationalRepos, setSubmittedEducationalRepos] = useState<Repository[]>([]);
   const [submittedError, setSubmittedError] = useState<string>('');
@@ -64,7 +81,10 @@ function AppContent() {
   const [trendingLoading, setTrendingLoading] = useState(false);
   const [educationalLoading, setEducationalLoading] = useState(false);
   const [submittedLoading, setSubmittedLoading] = useState(false);
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const [hasSearched, setHasSearched] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -77,11 +97,17 @@ function AppContent() {
     beginnerMode: false,
   });
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   const [aiIdeas, setAIIdeas] = useState<ProjectIdea[]>([]);
   const [aiLoading, setAILoading] = useState(false);
   const [aiError, setAIError] = useState('');
 >>>>>>> 89f5a0d (Initial commit)
+=======
+  const [aiIdeas, setAIIdeas] = useState<ProjectIdea[]>([]);
+  const [aiLoading, setAILoading] = useState(false);
+  const [aiError, setAIError] = useState('');
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
   useEffect(() => {
     loadTrendingRepositories();
@@ -89,9 +115,13 @@ function AppContent() {
     if (user && isSupabaseEnabled) {
       loadBookmarks();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       loadSubmittedRepos();
 >>>>>>> 89f5a0d (Initial commit)
+=======
+      loadSubmittedRepos();
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     }
   }, [user]);
 
@@ -131,8 +161,11 @@ function AppContent() {
       const educational = await githubService.getEducationalRepositories();
       setEducationalRepos(educational);
 <<<<<<< HEAD
+<<<<<<< HEAD
       setLastUpdated(new Date());
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       // Fetch submitted repos from Supabase (no status filter for debug)
       const submittedResult = await supabase
         .from('submitted_repos')
@@ -163,7 +196,10 @@ function AppContent() {
       }));
       console.log('Mapped submittedEducationalRepos:', mapped);
       setSubmittedEducationalRepos(mapped);
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     } catch (error) {
       console.error('Error loading educational repositories:', error);
       if (error instanceof Error && error.message.includes('rate limit')) {
@@ -174,6 +210,7 @@ function AppContent() {
     }
   };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const loadBookmarks = async () => {
     if (!user || !isSupabaseEnabled) return;
@@ -195,6 +232,8 @@ function AppContent() {
       const bookmarks = data?.map(item => item.repository_data) || [];
       setBookmarkedRepos(bookmarks);
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   // --- Fix Supabase query chaining for loadSubmittedRepos ---
   const loadSubmittedRepos = async () => {
     setSubmittedLoading(true);
@@ -257,7 +296,10 @@ function AppContent() {
           setBookmarkedRepos(bookmarks);
         }
       }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     } catch (error) {
       console.error('Error loading bookmarks:', error);
       // Don't show error to user for bookmarks, just log it
@@ -285,6 +327,7 @@ function AppContent() {
     }
   };
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const handleBookmark = async (repo: Repository) => {
     if (!user || !isSupabaseEnabled) return;
@@ -323,6 +366,8 @@ function AppContent() {
       console.error('Error managing bookmark:', error);
       // Don't show error to user for bookmarks, just log it
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const handleBookmark = async (repo: any) => {
     if (!user || !isSupabaseEnabled) return;
     // Optimistically update UI
@@ -366,7 +411,10 @@ function AppContent() {
       } else {
         setBookmarkedRepos((prev) => [...prev, repo]);
       }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     }
   };
 
@@ -376,7 +424,10 @@ function AppContent() {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const handleGenerateAIIdeas = async () => {
     setAILoading(true);
     setAIError('');
@@ -435,7 +486,10 @@ function AppContent() {
     // eslint-disable-next-line
   }, [submittedEducationalRepos]);
 
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const renderApiErrorBanner = () => {
     if (!apiError) return null;
 
@@ -476,6 +530,7 @@ function AppContent() {
             </div>
           </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Discover Amazing GitHub Projects
           </h1>
@@ -494,6 +549,8 @@ function AppContent() {
             </span>
             <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300">
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4 drop-shadow-lg">
             Discover Amazing GitHub Projects
           </h1>
@@ -511,7 +568,10 @@ function AppContent() {
               👥 Beginner Friendly
             </span>
             <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
               ⭐ Updated Daily
             </span>
           </div>
@@ -537,20 +597,28 @@ function AppContent() {
               </div>
               <div className="flex items-center space-x-4">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div className="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-400">
 =======
                 <div className="flex items-center space-x-1 text-base font-semibold text-secondary-700 dark:text-secondary-200">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+                <div className="flex items-center space-x-1 text-base font-semibold text-secondary-700 dark:text-secondary-200">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                   <BookOpen className="h-4 w-4" />
                   <span>Perfect for students & educators</span>
                 </div>
                 <button
                   onClick={refreshRepositories}
 <<<<<<< HEAD
+<<<<<<< HEAD
                   className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
 =======
                   className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-base font-semibold shadow-sm"
 >>>>>>> 89f5a0d (Initial commit)
+=======
+                  className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-base font-semibold shadow-sm"
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                 >
                   <RefreshCw className="h-4 w-4" />
                   <span>Refresh</span>
@@ -560,10 +628,14 @@ function AppContent() {
             
             {lastUpdated && (
 <<<<<<< HEAD
+<<<<<<< HEAD
               <div className="text-xs text-gray-500 dark:text-gray-400">
 =======
               <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </div>
             )}
@@ -578,6 +650,7 @@ function AppContent() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
                 {educationalRepos.slice(0, 6).map((repo) => (
                   <RepositoryCard
                     key={repo.id}
@@ -585,6 +658,8 @@ function AppContent() {
                     isBookmarked={bookmarkedRepos.some(r => r.id === repo.id)}
                     onBookmark={user && isSupabaseEnabled ? handleBookmark : undefined}
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                 {[
                   ...submittedEducationalRepos,
                   ...educationalRepos
@@ -598,7 +673,10 @@ function AppContent() {
                     {...('submitted_by' in repo && (repo as any).submitted_by === user?.login
                       ? { onDelete: () => handleDeleteSubmittedRepo(String(repo.id)) }
                       : {})}
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
                   />
                 ))}
               </div>
@@ -690,6 +768,7 @@ function AppContent() {
         </p>
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projectIdeas.map((idea) => (
@@ -697,6 +776,8 @@ function AppContent() {
         ))}
       </div>
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {[...projectIdeas, ...aiIdeas].map((idea) => (
           <ProjectIdeaCard key={idea.id} idea={idea} />
@@ -712,7 +793,10 @@ function AppContent() {
         </button>
         {aiError && <div className="text-error-600 dark:text-error-400 mt-2">{aiError}</div>}
       </div>
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     </div>
   );
 
@@ -780,7 +864,10 @@ function AppContent() {
   );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const renderSubmittedView = () => (
     <div className="space-y-8">
       <div className="text-center">
@@ -810,7 +897,10 @@ function AppContent() {
     </div>
   );
 
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   const renderCurrentView = () => {
     switch (currentView) {
       case 'ideas':
@@ -822,16 +912,22 @@ function AppContent() {
       case 'bookmarks':
         return renderBookmarksView();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       case 'submitted':
         return renderSubmittedView();
 >>>>>>> 89f5a0d (Initial commit)
+=======
+      case 'submitted':
+        return renderSubmittedView();
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       default:
         return renderHomeView();
     }
   };
 
   return (
+<<<<<<< HEAD
 <<<<<<< HEAD
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Header currentView={currentView} onViewChange={setCurrentView} />
@@ -842,13 +938,18 @@ function AppContent() {
 
       <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     <div className="min-h-screen bg-black bg-gradient-to-br from-black via-gray-900 to-primary-900 transition-colors">
       <Header currentView={currentView} onViewChange={setCurrentView} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {renderCurrentView()}
       </main>
       <footer className="bg-white/80 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700 mt-16 backdrop-blur-md">
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">

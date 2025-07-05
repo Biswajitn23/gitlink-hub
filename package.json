@@ -11,18 +11,24 @@
   },
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.21.0",
     "@supabase/supabase-js": "^2.39.0"
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     "@supabase/supabase-js": "^2.50.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.21.0"
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
@@ -39,6 +45,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "vite": "^5.4.2"
   }
 }
@@ -47,3 +54,8 @@
   }
 }
 >>>>>>> 89f5a0d (Initial commit)
+=======
+    "vite": "^6.3.5"
+  }
+}
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06

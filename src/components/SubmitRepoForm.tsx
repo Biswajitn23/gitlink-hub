@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Send, Github, AlertCircle } from 'lucide-react';
 import { SubmittedRepo } from '../types';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { useAuth } from '../context/AuthContext';
 import { githubService } from '../services/githubApi';
 import { supabase } from '../lib/supabase';
@@ -19,7 +22,10 @@ async function fetchGithubAvatar(username: string): Promise<string | null> {
     return null;
   }
 }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
 export function SubmitRepoForm() {
   const { user } = useAuth();
@@ -62,7 +68,10 @@ export function SubmitRepoForm() {
 
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       // Try to extract username from github_url if user.login is not available
       let submittedBy = user?.login;
       if (!submittedBy && formData.github_url) {
@@ -91,12 +100,16 @@ export function SubmitRepoForm() {
       }
 
       // Insert new submission
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       const { error: submitError } = await supabase
         .from('submitted_repos')
         .insert([
           {
             ...formData,
+<<<<<<< HEAD
 <<<<<<< HEAD
             submitted_by: user?.login || 'anonymous',
             status: 'pending',
@@ -105,6 +118,8 @@ export function SubmitRepoForm() {
 
       if (submitError) throw submitError;
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             submitted_by: submittedBy || 'anonymous',
             owner_avatar: avatarUrl || '',
             status: 'approved', // Auto-approve user submissions
@@ -115,7 +130,10 @@ export function SubmitRepoForm() {
         setError(submitError.message || 'An error occurred');
         return;
       }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
       setSuccess(true);
       setFormData({
@@ -126,11 +144,16 @@ export function SubmitRepoForm() {
       });
     } catch (err) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       setError(err instanceof Error ? err.message : 'An error occurred');
 =======
       setError(err instanceof Error ? err.message : JSON.stringify(err));
       console.error('SubmitRepoForm unexpected error:', err);
 >>>>>>> 89f5a0d (Initial commit)
+=======
+      setError(err instanceof Error ? err.message : JSON.stringify(err));
+      console.error('SubmitRepoForm unexpected error:', err);
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     } finally {
       setLoading(false);
     }
@@ -157,7 +180,10 @@ export function SubmitRepoForm() {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   if (!user) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
@@ -186,7 +212,10 @@ export function SubmitRepoForm() {
     );
   }
 
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8">
       <div className="flex items-center space-x-3 mb-6">
@@ -207,20 +236,29 @@ export function SubmitRepoForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 =======
           <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+          <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             GitHub Repository URL *
           </label>
           <input
             type="url"
             required
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             id="github_url"
             name="github_url"
 >>>>>>> 89f5a0d (Initial commit)
+=======
+            id="github_url"
+            name="github_url"
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             value={formData.github_url}
             onChange={(e) => handleInputChange('github_url', e.target.value)}
             placeholder="https://github.com/username/repository"
@@ -230,19 +268,28 @@ export function SubmitRepoForm() {
 
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 =======
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             Description *
           </label>
           <textarea
             required
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             id="description"
             name="description"
 >>>>>>> 89f5a0d (Initial commit)
+=======
+            id="description"
+            name="description"
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             rows={4}
             value={formData.description}
             onChange={(e) => handleInputChange('description', e.target.value)}
@@ -253,20 +300,29 @@ export function SubmitRepoForm() {
 
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 =======
           <label htmlFor="tech_input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+          <label htmlFor="tech_input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             Technologies Used
           </label>
           <div className="flex space-x-2 mb-3">
             <input
               type="text"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
               id="tech_input"
               name="tech_input"
 >>>>>>> 89f5a0d (Initial commit)
+=======
+              id="tech_input"
+              name="tech_input"
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
               value={techInput}
               onChange={(e) => setTechInput(e.target.value)}
               placeholder="Add a technology (e.g., React, Python)"
@@ -302,19 +358,28 @@ export function SubmitRepoForm() {
 
         <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 =======
           <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
 >>>>>>> 89f5a0d (Initial commit)
+=======
+          <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             Difficulty Level *
           </label>
           <select
             required
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             id="difficulty"
             name="difficulty"
 >>>>>>> 89f5a0d (Initial commit)
+=======
+            id="difficulty"
+            name="difficulty"
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
             value={formData.difficulty}
             onChange={(e) => handleInputChange('difficulty', e.target.value)}
             className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"

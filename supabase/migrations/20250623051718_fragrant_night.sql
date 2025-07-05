@@ -61,10 +61,13 @@ CREATE TABLE IF NOT EXISTS user_repositories (
 );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Enable Row Level Security
 ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_repositories ENABLE ROW LEVEL SECURITY;
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 -- Create submitted_repos table for educational resource uploads
 CREATE TABLE IF NOT EXISTS submitted_repos (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -80,7 +83,10 @@ CREATE TABLE IF NOT EXISTS submitted_repos (
 ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_repositories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE submitted_repos ENABLE ROW LEVEL SECURITY;
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 
 -- Create policies for bookmarks table
 CREATE POLICY "Users can view their own bookmarks"
@@ -133,7 +139,10 @@ CREATE POLICY "Users can delete their own repositories"
   USING (auth.uid() = uploaded_by);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 -- Create policies for submitted_repos table
 CREATE POLICY "Users can view their own submitted repos"
   ON submitted_repos
@@ -153,12 +162,16 @@ CREATE POLICY "Users can delete their own submitted repos"
   TO authenticated
   USING (auth.uid() = submitted_by);
 
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_bookmarks_user_id ON bookmarks(user_id);
 CREATE INDEX IF NOT EXISTS idx_bookmarks_repository_id ON bookmarks(repository_id);
 CREATE INDEX IF NOT EXISTS idx_user_repositories_uploaded_by ON user_repositories(uploaded_by);
 CREATE INDEX IF NOT EXISTS idx_user_repositories_status ON user_repositories(status);
+<<<<<<< HEAD
 <<<<<<< HEAD
 CREATE INDEX IF NOT EXISTS idx_user_repositories_github_id ON user_repositories(github_id);
 =======
@@ -166,3 +179,8 @@ CREATE INDEX IF NOT EXISTS idx_user_repositories_github_id ON user_repositories(
 CREATE INDEX IF NOT EXISTS idx_submitted_repos_submitted_by ON submitted_repos(submitted_by);
 CREATE INDEX IF NOT EXISTS idx_submitted_repos_status ON submitted_repos(status);
 >>>>>>> 89f5a0d (Initial commit)
+=======
+CREATE INDEX IF NOT EXISTS idx_user_repositories_github_id ON user_repositories(github_id);
+CREATE INDEX IF NOT EXISTS idx_submitted_repos_submitted_by ON submitted_repos(submitted_by);
+CREATE INDEX IF NOT EXISTS idx_submitted_repos_status ON submitted_repos(status);
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06

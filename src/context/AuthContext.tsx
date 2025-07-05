@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { createContext, useContext, useEffect, useState } from 'react';
 =======
 import { createContext, useContext, useEffect, useState } from 'react';
 >>>>>>> 89f5a0d (Initial commit)
+=======
+import { createContext, useContext, useEffect, useState } from 'react';
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { User } from '../types';
 import { authService } from '../services/authService';
 
@@ -28,9 +32,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Listen for auth changes
 <<<<<<< HEAD
+<<<<<<< HEAD
     const { data: { subscription } } = authService.onAuthStateChange((user) => {
       setUser(user);
 =======
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
     const { data: { subscription } } = authService.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         const userObj = await authService.getCurrentUser();
@@ -38,7 +45,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else if (event === 'SIGNED_OUT') {
         setUser(null);
       }
+<<<<<<< HEAD
 >>>>>>> 89f5a0d (Initial commit)
+=======
+>>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       setLoading(false);
     });
 
