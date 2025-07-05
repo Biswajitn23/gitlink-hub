@@ -1,8 +1,25 @@
 import React, { useState } from 'react';
 import { Send, Github, AlertCircle } from 'lucide-react';
 import { SubmittedRepo } from '../types';
+<<<<<<< HEAD
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
+=======
+import { useAuth } from '../context/AuthContext';
+import { githubService } from '../services/githubApi';
+import { supabase } from '../lib/supabase';
+
+async function fetchGithubAvatar(username: string): Promise<string | null> {
+  try {
+    const res = await fetch(`https://api.github.com/users/${username}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.avatar_url || null;
+  } catch {
+    return null;
+  }
+}
+>>>>>>> 89f5a0d (Initial commit)
 
 export function SubmitRepoForm() {
   const { user } = useAuth();
@@ -44,17 +61,61 @@ export function SubmitRepoForm() {
     setError('');
 
     try {
+<<<<<<< HEAD
+=======
+      // Try to extract username from github_url if user.login is not available
+      let submittedBy = user?.login;
+      if (!submittedBy && formData.github_url) {
+        const match = formData.github_url.match(/github.com\/(.*?)\//);
+        if (match && match[1]) {
+          submittedBy = match[1];
+        }
+      }
+      // Fetch avatar_url for the submitter
+      let avatarUrl = user?.avatar_url;
+      if (!avatarUrl && submittedBy) {
+        const fetched = await fetchGithubAvatar(submittedBy);
+        avatarUrl = fetched || undefined;
+      }
+
+      // Check for duplicate by github_url
+      const { data: existing, error: checkError } = await supabase
+        .from('submitted_repos')
+        .select('id')
+        .eq('github_url', formData.github_url);
+      if (checkError) throw checkError;
+      if (existing && existing.length > 0) {
+        setError('This repository has already been submitted.');
+        setLoading(false);
+        return;
+      }
+
+      // Insert new submission
+>>>>>>> 89f5a0d (Initial commit)
       const { error: submitError } = await supabase
         .from('submitted_repos')
         .insert([
           {
             ...formData,
+<<<<<<< HEAD
             submitted_by: user?.login || 'anonymous',
             status: 'pending',
           }
         ]);
 
       if (submitError) throw submitError;
+=======
+            submitted_by: submittedBy || 'anonymous',
+            owner_avatar: avatarUrl || '',
+            status: 'approved', // Auto-approve user submissions
+          }
+        ]);
+      if (submitError) {
+        console.error('Supabase insert error:', submitError);
+        setError(submitError.message || 'An error occurred');
+        return;
+      }
+>>>>>>> 89f5a0d (Initial commit)
 
       setSuccess(true);
       setFormData({
@@ -64,7 +125,12 @@ export function SubmitRepoForm() {
         difficulty: 'Beginner',
       });
     } catch (err) {
+<<<<<<< HEAD
       setError(err instanceof Error ? err.message : 'An error occurred');
+=======
+      setError(err instanceof Error ? err.message : JSON.stringify(err));
+      console.error('SubmitRepoForm unexpected error:', err);
+>>>>>>> 89f5a0d (Initial commit)
     } finally {
       setLoading(false);
     }
@@ -90,6 +156,37 @@ export function SubmitRepoForm() {
     );
   }
 
+<<<<<<< HEAD
+=======
+  if (!user) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
+        <Github className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          Sign in to Submit a Repository
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400">
+          You must be signed in with GitHub to submit a repository.
+        </p>
+      </div>
+    );
+  }
+
+  if (!supabase || typeof supabase.from !== 'function') {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 text-center">
+        <AlertCircle className="h-16 w-16 text-error-400 dark:text-error-600 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          Supabase Not Configured
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400">
+          Please check your .env file and Supabase project configuration.
+        </p>
+      </div>
+    );
+  }
+
+>>>>>>> 89f5a0d (Initial commit)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8">
       <div className="flex items-center space-x-3 mb-6">
@@ -109,12 +206,21 @@ export function SubmitRepoForm() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+=======
+          <label htmlFor="github_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> 89f5a0d (Initial commit)
             GitHub Repository URL *
           </label>
           <input
             type="url"
             required
+<<<<<<< HEAD
+=======
+            id="github_url"
+            name="github_url"
+>>>>>>> 89f5a0d (Initial commit)
             value={formData.github_url}
             onChange={(e) => handleInputChange('github_url', e.target.value)}
             placeholder="https://github.com/username/repository"
@@ -123,11 +229,20 @@ export function SubmitRepoForm() {
         </div>
 
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+=======
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> 89f5a0d (Initial commit)
             Description *
           </label>
           <textarea
             required
+<<<<<<< HEAD
+=======
+            id="description"
+            name="description"
+>>>>>>> 89f5a0d (Initial commit)
             rows={4}
             value={formData.description}
             onChange={(e) => handleInputChange('description', e.target.value)}
@@ -137,12 +252,21 @@ export function SubmitRepoForm() {
         </div>
 
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+=======
+          <label htmlFor="tech_input" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> 89f5a0d (Initial commit)
             Technologies Used
           </label>
           <div className="flex space-x-2 mb-3">
             <input
               type="text"
+<<<<<<< HEAD
+=======
+              id="tech_input"
+              name="tech_input"
+>>>>>>> 89f5a0d (Initial commit)
               value={techInput}
               onChange={(e) => setTechInput(e.target.value)}
               placeholder="Add a technology (e.g., React, Python)"
@@ -177,11 +301,20 @@ export function SubmitRepoForm() {
         </div>
 
         <div>
+<<<<<<< HEAD
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+=======
+          <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+>>>>>>> 89f5a0d (Initial commit)
             Difficulty Level *
           </label>
           <select
             required
+<<<<<<< HEAD
+=======
+            id="difficulty"
+            name="difficulty"
+>>>>>>> 89f5a0d (Initial commit)
             value={formData.difficulty}
             onChange={(e) => handleInputChange('difficulty', e.target.value)}
             className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white"

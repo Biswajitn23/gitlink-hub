@@ -38,4 +38,12 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseKey)
   : createMockClient();
 
+<<<<<<< HEAD
+=======
+// Expose supabase client for browser console debugging
+if (typeof window !== 'undefined') {
+  (window as any).supabase = supabase;
+}
+
+>>>>>>> 89f5a0d (Initial commit)
 export const isSupabaseEnabled = isSupabaseConfigured;

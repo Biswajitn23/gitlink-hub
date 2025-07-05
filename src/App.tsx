@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
+=======
+import { useState, useEffect } from 'react';
+>>>>>>> 89f5a0d (Initial commit)
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
 import { RepositoryCard } from './components/RepositoryCard';
@@ -9,11 +13,37 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { EmptyState } from './components/EmptyState';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+<<<<<<< HEAD
 import { Repository, SearchFilters } from './types';
+=======
+import { Repository, SearchFilters, ProjectIdea, SubmittedRepo } from './types';
+>>>>>>> 89f5a0d (Initial commit)
 import { githubService } from './services/githubApi';
 import { supabase, isSupabaseEnabled } from './lib/supabase';
 import { projectIdeas } from './data/projectIdeas';
 import { TrendingUp, Sparkles, Code2, BookOpen, GraduationCap, AlertCircle, RefreshCw } from 'lucide-react';
+<<<<<<< HEAD
+=======
+import { fetchAIProjectIdeas } from './services/aiService';
+import { SubmittedRepoCard } from './components/SubmittedRepoCard';
+
+// Type guard for .eq
+function hasEq(obj: any): obj is { eq: Function } {
+  return obj && typeof obj.eq === 'function';
+}
+// Type guard for .order
+function hasOrder(obj: any): obj is { order: Function } {
+  return obj && typeof obj.order === 'function';
+}
+// Type guard for Promise-like
+function isPromise(obj: any): obj is Promise<any> {
+  return obj && typeof obj.then === 'function';
+}
+// Type guard for .data and .error
+function hasDataAndError(obj: any): obj is { data: any; error: any } {
+  return obj && typeof obj === 'object' && 'data' in obj && 'error' in obj;
+}
+>>>>>>> 89f5a0d (Initial commit)
 
 function AppContent() {
   const { user } = useAuth();
@@ -22,9 +52,19 @@ function AppContent() {
   const [trendingRepos, setTrendingRepos] = useState<Repository[]>([]);
   const [educationalRepos, setEducationalRepos] = useState<Repository[]>([]);
   const [bookmarkedRepos, setBookmarkedRepos] = useState<Repository[]>([]);
+<<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const [trendingLoading, setTrendingLoading] = useState(false);
   const [educationalLoading, setEducationalLoading] = useState(false);
+=======
+  const [submittedRepos, setSubmittedRepos] = useState<SubmittedRepo[]>([]);
+  const [submittedEducationalRepos, setSubmittedEducationalRepos] = useState<Repository[]>([]);
+  const [submittedError, setSubmittedError] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const [trendingLoading, setTrendingLoading] = useState(false);
+  const [educationalLoading, setEducationalLoading] = useState(false);
+  const [submittedLoading, setSubmittedLoading] = useState(false);
+>>>>>>> 89f5a0d (Initial commit)
   const [hasSearched, setHasSearched] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -36,12 +76,22 @@ function AppContent() {
     order: 'desc',
     beginnerMode: false,
   });
+<<<<<<< HEAD
+=======
+  const [aiIdeas, setAIIdeas] = useState<ProjectIdea[]>([]);
+  const [aiLoading, setAILoading] = useState(false);
+  const [aiError, setAIError] = useState('');
+>>>>>>> 89f5a0d (Initial commit)
 
   useEffect(() => {
     loadTrendingRepositories();
     loadEducationalRepositories();
     if (user && isSupabaseEnabled) {
       loadBookmarks();
+<<<<<<< HEAD
+=======
+      loadSubmittedRepos();
+>>>>>>> 89f5a0d (Initial commit)
     }
   }, [user]);
 
@@ -80,7 +130,40 @@ function AppContent() {
     try {
       const educational = await githubService.getEducationalRepositories();
       setEducationalRepos(educational);
+<<<<<<< HEAD
       setLastUpdated(new Date());
+=======
+      // Fetch submitted repos from Supabase (no status filter for debug)
+      const submittedResult = await supabase
+        .from('submitted_repos')
+        .select('*');
+      let submitted: any[] = [];
+      let submittedError: any = null;
+      if (submittedResult && typeof submittedResult === 'object') {
+        if ('data' in submittedResult) submitted = submittedResult.data || [];
+        if ('error' in submittedResult) submittedError = submittedResult.error;
+      }
+      console.log('Supabase submitted_repos:', submitted, submittedError);
+      // Map submitted repos to Repository shape for display
+      const mapped = (submitted || []).map((repo: any) => ({
+        id: repo.id,
+        name: repo.github_url?.split('/').slice(-1)[0] || 'Submitted Repo',
+        full_name: repo.github_url?.replace('https://github.com/', '') || repo.github_url,
+        description: repo.description,
+        html_url: repo.github_url,
+        stargazers_count: 0,
+        forks_count: 0,
+        language: repo.tech_stack?.[0] || null,
+        updated_at: repo.created_at || '',
+        created_at: repo.created_at || '',
+        topics: repo.tech_stack || [],
+        owner: { login: repo.submitted_by || 'user', avatar_url: '' },
+        has_issues: false,
+        open_issues_count: 0,
+      }));
+      console.log('Mapped submittedEducationalRepos:', mapped);
+      setSubmittedEducationalRepos(mapped);
+>>>>>>> 89f5a0d (Initial commit)
     } catch (error) {
       console.error('Error loading educational repositories:', error);
       if (error instanceof Error && error.message.includes('rate limit')) {
@@ -91,6 +174,7 @@ function AppContent() {
     }
   };
 
+<<<<<<< HEAD
   const loadBookmarks = async () => {
     if (!user || !isSupabaseEnabled) return;
     
@@ -110,6 +194,70 @@ function AppContent() {
       
       const bookmarks = data?.map(item => item.repository_data) || [];
       setBookmarkedRepos(bookmarks);
+=======
+  // --- Fix Supabase query chaining for loadSubmittedRepos ---
+  const loadSubmittedRepos = async () => {
+    setSubmittedLoading(true);
+    setSubmittedError('');
+    try {
+      let data: SubmittedRepo[] = [];
+      let error: any = null;
+      const fromResult = supabase.from('submitted_repos');
+      const selectResult = fromResult.select('*');
+      if (hasOrder(selectResult)) {
+        // Real Supabase
+        const resp = await selectResult.order('created_at', { ascending: false });
+        if (hasDataAndError(resp)) {
+          data = resp.data || [];
+          error = resp.error;
+        }
+      } else if (isPromise(selectResult)) {
+        // Mock fallback
+        const resp = await selectResult;
+        if (hasDataAndError(resp)) {
+          data = resp.data || [];
+          error = resp.error;
+        }
+      }
+      if (error) throw error;
+      setSubmittedRepos(data);
+    } catch (err) {
+      setSubmittedError(err instanceof Error ? err.message : 'Failed to load submitted repositories.');
+    } finally {
+      setSubmittedLoading(false);
+    }
+  };
+
+  const loadBookmarks = async () => {
+    if (!user || !isSupabaseEnabled) return;
+    try {
+      const fromResult = supabase.from('bookmarks');
+      const selectResult = fromResult.select('repository_data');
+      if (hasEq(selectResult)) {
+        // Real Supabase or mock with .eq
+        const resp = await selectResult.eq('user_id', user.id);
+        if (hasDataAndError(resp)) {
+          const data = resp.data;
+          const error = resp.error;
+          if (error) {
+            if (error.message.includes('Supabase not configured')) {
+              console.warn('Bookmarks disabled: Supabase not configured');
+              return;
+            }
+            throw error;
+          }
+          const bookmarks = Array.isArray(data) ? data.map((item: any) => item.repository_data) : [];
+          setBookmarkedRepos(bookmarks);
+        }
+      } else if (isPromise(selectResult)) {
+        // If it's a Promise (mock without .eq), just await it
+        const resp = await selectResult;
+        if (hasDataAndError(resp)) {
+          const bookmarks = Array.isArray(resp.data) ? resp.data.map((item: any) => item.repository_data) : [];
+          setBookmarkedRepos(bookmarks);
+        }
+      }
+>>>>>>> 89f5a0d (Initial commit)
     } catch (error) {
       console.error('Error loading bookmarks:', error);
       // Don't show error to user for bookmarks, just log it
@@ -137,6 +285,7 @@ function AppContent() {
     }
   };
 
+<<<<<<< HEAD
   const handleBookmark = async (repo: Repository) => {
     if (!user || !isSupabaseEnabled) return;
 
@@ -173,6 +322,51 @@ function AppContent() {
     } catch (error) {
       console.error('Error managing bookmark:', error);
       // Don't show error to user for bookmarks, just log it
+=======
+  const handleBookmark = async (repo: any) => {
+    if (!user || !isSupabaseEnabled) return;
+    // Optimistically update UI
+    const isBookmarked = bookmarkedRepos.some(r => String(r.id) === String(repo.id));
+    if (!isBookmarked) {
+      setBookmarkedRepos((prev) => [...prev, repo]);
+    } else {
+      setBookmarkedRepos((prev) => prev.filter(r => String(r.id) !== String(repo.id)));
+    }
+    try {
+      const fromResult = supabase.from('bookmarks');
+      const selectResult = fromResult.select('*');
+      if (hasEq(selectResult)) {
+        const firstResp = await selectResult.eq('repository_id', repo.id);
+        let existsResp = firstResp;
+        if (hasEq(firstResp)) {
+          existsResp = await firstResp.eq('user_id', user.id);
+        }
+        if (hasDataAndError(existsResp)) {
+          if (Array.isArray(existsResp.data) && existsResp.data.length > 0) return; // Already bookmarked
+        }
+        await supabase.from('bookmarks').insert({
+          user_id: user.id,
+          repository_id: repo.id,
+          repository_data: repo
+        });
+      } else if (isPromise(selectResult)) {
+        const existsResp = await selectResult;
+        if (hasDataAndError(existsResp) && Array.isArray(existsResp.data) && existsResp.data.length > 0) return;
+        await supabase.from('bookmarks').insert({
+          user_id: user.id,
+          repository_id: repo.id,
+          repository_data: repo
+        });
+      }
+    } catch (error) {
+      console.error('Error bookmarking repo:', error);
+      // Rollback optimistic update on error
+      if (!isBookmarked) {
+        setBookmarkedRepos((prev) => prev.filter(r => String(r.id) !== String(repo.id)));
+      } else {
+        setBookmarkedRepos((prev) => [...prev, repo]);
+      }
+>>>>>>> 89f5a0d (Initial commit)
     }
   };
 
@@ -181,6 +375,67 @@ function AppContent() {
     loadEducationalRepositories();
   };
 
+<<<<<<< HEAD
+=======
+  const handleGenerateAIIdeas = async () => {
+    setAILoading(true);
+    setAIError('');
+    try {
+      const newIdeas = await fetchAIProjectIdeas(3);
+      setAIIdeas((prev) => {
+        // Filter out ideas with duplicate id or title
+        const existingTitles = new Set([...projectIdeas, ...prev].map(i => i.title));
+        const existingIds = new Set([...projectIdeas, ...prev].map(i => i.id));
+        return [
+          ...prev,
+          ...newIdeas.filter(i => !existingTitles.has(i.title) && !existingIds.has(i.id))
+        ];
+      });
+    } catch (err) {
+      setAIError('Failed to fetch AI project ideas.');
+    } finally {
+      setAILoading(false);
+    }
+  };
+
+  const handleDeleteSubmittedRepo = async (id: string | undefined) => {
+    if (!id) return;
+    try {
+      await supabase.from('submitted_repos').delete().eq('id', id);
+      setSubmittedRepos((prev) => prev.filter((repo) => String(repo.id) !== String(id)));
+      setSubmittedEducationalRepos((prev) => prev.filter((repo) => String(repo.id) !== String(id)));
+    } catch (err) {
+      alert('Failed to delete the submitted repository.');
+    }
+  };
+
+  // Utility to delete submitted repos by name (for admin/debug)
+  const deleteSubmittedReposByNames = async (names: string[]) => {
+    try {
+      for (const name of names) {
+        // Find the repo in submittedEducationalRepos by name
+        const repo = submittedEducationalRepos.find(r => r.name === name);
+        if (repo) {
+          await supabase.from('submitted_repos').delete().eq('id', repo.id);
+          setSubmittedEducationalRepos(prev => prev.filter(r => r.id !== repo.id));
+        }
+      }
+      // Also update submittedRepos in case it's used elsewhere (match by github_url)
+      setSubmittedRepos(prev => prev.filter(r => !names.includes(r.github_url?.split('/').slice(-1)[0])));
+    } catch (err) {
+      alert('Failed to delete one or more submitted repositories.');
+    }
+  };
+
+  // Call the utility to delete the requested repos (one-time, on mount)
+  useEffect(() => {
+    if (submittedEducationalRepos.length > 0) {
+      deleteSubmittedReposByNames(submittedEducationalRepos.map(r => r.name));
+    }
+    // eslint-disable-next-line
+  }, [submittedEducationalRepos]);
+
+>>>>>>> 89f5a0d (Initial commit)
   const renderApiErrorBanner = () => {
     if (!apiError) return null;
 
@@ -220,6 +475,7 @@ function AppContent() {
               <Code2 className="h-12 w-12 text-primary-600" />
             </div>
           </div>
+<<<<<<< HEAD
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Discover Amazing GitHub Projects
           </h1>
@@ -237,6 +493,25 @@ function AppContent() {
               👥 Beginner Friendly
             </span>
             <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300">
+=======
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4 drop-shadow-lg">
+            Discover Amazing GitHub Projects
+          </h1>
+          <p className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-8">
+            Explore millions of public repositories from developers worldwide. Find beginner-friendly projects, educational resources, and contribute to open source.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 text-base font-semibold text-secondary-700 dark:text-secondary-300">
+            <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+              🌍 Global Repositories
+            </span>
+            <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+              🎓 Educational Content
+            </span>
+            <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+              👥 Beginner Friendly
+            </span>
+            <span className="bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm border border-gray-100 dark:border-gray-700">
+>>>>>>> 89f5a0d (Initial commit)
               ⭐ Updated Daily
             </span>
           </div>
@@ -261,13 +536,21 @@ function AppContent() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Educational Resources</h2>
               </div>
               <div className="flex items-center space-x-4">
+<<<<<<< HEAD
                 <div className="flex items-center space-x-1 text-sm text-gray-500 dark:text-gray-400">
+=======
+                <div className="flex items-center space-x-1 text-base font-semibold text-secondary-700 dark:text-secondary-200">
+>>>>>>> 89f5a0d (Initial commit)
                   <BookOpen className="h-4 w-4" />
                   <span>Perfect for students & educators</span>
                 </div>
                 <button
                   onClick={refreshRepositories}
+<<<<<<< HEAD
                   className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-sm"
+=======
+                  className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-base font-semibold shadow-sm"
+>>>>>>> 89f5a0d (Initial commit)
                 >
                   <RefreshCw className="h-4 w-4" />
                   <span>Refresh</span>
@@ -276,7 +559,11 @@ function AppContent() {
             </div>
             
             {lastUpdated && (
+<<<<<<< HEAD
               <div className="text-xs text-gray-500 dark:text-gray-400">
+=======
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+>>>>>>> 89f5a0d (Initial commit)
                 Last updated: {lastUpdated.toLocaleTimeString()}
               </div>
             )}
@@ -290,12 +577,28 @@ function AppContent() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<<<<<<< HEAD
                 {educationalRepos.slice(0, 6).map((repo) => (
                   <RepositoryCard
                     key={repo.id}
                     repository={repo}
                     isBookmarked={bookmarkedRepos.some(r => r.id === repo.id)}
                     onBookmark={user && isSupabaseEnabled ? handleBookmark : undefined}
+=======
+                {[
+                  ...submittedEducationalRepos,
+                  ...educationalRepos
+                ].map((repo) => (
+                  <RepositoryCard
+                    key={repo.id}
+                    repository={repo}
+                    isBookmarked={bookmarkedRepos.some(r => String(r.id) === String(repo.id))}
+                    onBookmark={user && isSupabaseEnabled ? handleBookmark : undefined}
+                    // Only pass onDelete if repo has submitted_by and it matches user
+                    {...('submitted_by' in repo && (repo as any).submitted_by === user?.login
+                      ? { onDelete: () => handleDeleteSubmittedRepo(String(repo.id)) }
+                      : {})}
+>>>>>>> 89f5a0d (Initial commit)
                   />
                 ))}
               </div>
@@ -386,12 +689,30 @@ function AppContent() {
           Get inspired with these project ideas perfect for learning and building your portfolio.
         </p>
       </div>
+<<<<<<< HEAD
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projectIdeas.map((idea) => (
           <ProjectIdeaCard key={idea.id} idea={idea} />
         ))}
       </div>
+=======
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {[...projectIdeas, ...aiIdeas].map((idea) => (
+          <ProjectIdeaCard key={idea.id} idea={idea} />
+        ))}
+      </div>
+      <div className="flex flex-col items-center gap-2 mt-4">
+        <button
+          onClick={handleGenerateAIIdeas}
+          className="px-6 py-2 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-md disabled:opacity-50"
+          disabled={aiLoading}
+        >
+          {aiLoading ? 'Generating Ideas...' : 'Generate More Ideas with AI'}
+        </button>
+        {aiError && <div className="text-error-600 dark:text-error-400 mt-2">{aiError}</div>}
+      </div>
+>>>>>>> 89f5a0d (Initial commit)
     </div>
   );
 
@@ -458,6 +779,38 @@ function AppContent() {
     </div>
   );
 
+<<<<<<< HEAD
+=======
+  const renderSubmittedView = () => (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Submitted Repositories</h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          These are repositories submitted by users for review and inclusion.
+        </p>
+      </div>
+      {submittedError && (
+        <div className="mb-6 p-4 bg-error-50 dark:bg-error-900/20 border border-error-200 dark:border-error-800 rounded-lg flex items-center space-x-2">
+          <span className="text-error-700 dark:text-error-300">{submittedError}</span>
+        </div>
+      )}
+      {submittedLoading ? (
+        <LoadingSpinner />
+      ) : submittedRepos.length === 0 ? (
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+          No submitted repositories found.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {submittedRepos.map((repo) => (
+            <SubmittedRepoCard key={repo.id} repo={repo} onDelete={handleDeleteSubmittedRepo} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+>>>>>>> 89f5a0d (Initial commit)
   const renderCurrentView = () => {
     switch (currentView) {
       case 'ideas':
@@ -468,12 +821,18 @@ function AppContent() {
         return renderUploadView();
       case 'bookmarks':
         return renderBookmarksView();
+<<<<<<< HEAD
+=======
+      case 'submitted':
+        return renderSubmittedView();
+>>>>>>> 89f5a0d (Initial commit)
       default:
         return renderHomeView();
     }
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <Header currentView={currentView} onViewChange={setCurrentView} />
       
@@ -482,6 +841,14 @@ function AppContent() {
       </main>
 
       <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+=======
+    <div className="min-h-screen bg-black bg-gradient-to-br from-black via-gray-900 to-primary-900 transition-colors">
+      <Header currentView={currentView} onViewChange={setCurrentView} />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {renderCurrentView()}
+      </main>
+      <footer className="bg-white/80 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700 mt-16 backdrop-blur-md">
+>>>>>>> 89f5a0d (Initial commit)
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+>>>>>>> 89f5a0d (Initial commit)
 import { Star, GitFork, Clock, ExternalLink, Heart, Calendar } from 'lucide-react';
 import { Repository } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -44,14 +47,22 @@ export function RepositoryCard({ repository, isBookmarked = false, onBookmark }:
   };
 
   return (
+<<<<<<< HEAD
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-200 overflow-hidden group">
+=======
+    <div className="bg-white/70 dark:bg-gray-800/70 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:border-primary-300 dark:hover:border-primary-700 transition-all duration-300 overflow-hidden group scale-100 hover:scale-105 backdrop-blur-md">
+>>>>>>> 89f5a0d (Initial commit)
       <div className="p-6">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center space-x-3">
             <img
               src={repository.owner.avatar_url}
               alt={repository.owner.login}
+<<<<<<< HEAD
               className="h-10 w-10 rounded-full border-2 border-gray-100 dark:border-gray-600"
+=======
+              className="h-12 w-12 rounded-full border-2 border-primary-100 dark:border-primary-700 shadow-md"
+>>>>>>> 89f5a0d (Initial commit)
             />
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white text-lg group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
@@ -60,11 +71,18 @@ export function RepositoryCard({ repository, isBookmarked = false, onBookmark }:
               <p className="text-sm text-gray-500 dark:text-gray-400">{repository.owner.login}</p>
             </div>
           </div>
+<<<<<<< HEAD
           
           {user && onBookmark && (
             <button
               onClick={() => onBookmark(repository)}
               className={`p-2 rounded-full transition-colors ${
+=======
+          {user && onBookmark && (
+            <button
+              onClick={() => onBookmark(repository)}
+              className={`p-2 rounded-full transition-colors shadow-md border border-transparent hover:border-red-200 dark:hover:border-red-700 backdrop-blur-sm ${
+>>>>>>> 89f5a0d (Initial commit)
                 isBookmarked
                   ? 'text-red-500 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40'
                   : 'text-gray-400 dark:text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'
@@ -74,7 +92,10 @@ export function RepositoryCard({ repository, isBookmarked = false, onBookmark }:
             </button>
           )}
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 89f5a0d (Initial commit)
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2 leading-relaxed">
           {repository.description || 'No description available.'}
         </p>

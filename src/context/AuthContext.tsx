@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { createContext, useContext, useEffect, useState } from 'react';
+=======
+import { createContext, useContext, useEffect, useState } from 'react';
+>>>>>>> 89f5a0d (Initial commit)
 import { User } from '../types';
 import { authService } from '../services/authService';
 
@@ -23,8 +27,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     // Listen for auth changes
+<<<<<<< HEAD
     const { data: { subscription } } = authService.onAuthStateChange((user) => {
       setUser(user);
+=======
+    const { data: { subscription } } = authService.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const userObj = await authService.getCurrentUser();
+        setUser(userObj);
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+>>>>>>> 89f5a0d (Initial commit)
       setLoading(false);
     });
 
