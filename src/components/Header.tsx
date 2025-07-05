@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import React from 'react';
-=======
->>>>>>> 89f5a0d (Initial commit)
-=======
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
 import { Github, BookOpen, PlusCircle, Heart, Upload, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -19,35 +12,15 @@ export function Header({ currentView, onViewChange }: HeaderProps) {
   const { isDark, toggleTheme } = useTheme();
 
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
-=======
     <header className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-lg transition-all duration-300">
->>>>>>> 89f5a0d (Initial commit)
-=======
-    <header className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 shadow-lg transition-all duration-300">
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <button
               onClick={() => onViewChange('home')}
-<<<<<<< HEAD
-<<<<<<< HEAD
-              className="flex items-center space-x-2 text-xl font-bold text-primary-600 hover:text-primary-700 transition-colors"
-            >
-              <Github className="h-8 w-8" />
-=======
               className="flex items-center space-x-2 text-2xl font-extrabold text-primary-600 hover:text-primary-700 transition-colors tracking-tight drop-shadow-md"
             >
               <Github className="h-9 w-9" />
->>>>>>> 89f5a0d (Initial commit)
-=======
-              className="flex items-center space-x-2 text-2xl font-extrabold text-primary-600 hover:text-primary-700 transition-colors tracking-tight drop-shadow-md"
-            >
-              <Github className="h-9 w-9" />
->>>>>>> ec7016ec4307d6b0c02009c6f3b64a524d835b06
               <span>GitLink Hub</span>
             </button>
             
